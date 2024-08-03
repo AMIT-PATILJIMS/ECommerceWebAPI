@@ -1,4 +1,5 @@
-﻿using ECommerceWebAPI.DTO;
+﻿using AutoMapper;
+using ECommerceWebAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +10,12 @@ namespace ECommerceWebAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly EcommerceContext _ecommerceContext;
+        private readonly IMapper _mapper;
 
-        public CustomerController(EcommerceContext ecommerceContext)
+        public CustomerController(EcommerceContext ecommerceContext, IMapper mapper)
         {
             _ecommerceContext = ecommerceContext;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,8 +39,8 @@ namespace ECommerceWebAPI.Controllers
         {
             var customer = await _ecommerceContext.Customers.FindAsync(id);
 
-            CustomerDTO customerDTO = new CustomerDTO();
-
+            var customerDTO = _mapper.Map<Customer, CustomerDTO>(customer);
+            /*
             if (customer != null)
             {
                 customerDTO = new CustomerDTO()
@@ -48,7 +51,7 @@ namespace ECommerceWebAPI.Controllers
                     Address = customer.Address
                 };
             }
-
+            */
             return customerDTO;
         }
 
