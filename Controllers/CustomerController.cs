@@ -37,7 +37,16 @@ namespace ECommerceWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<CustomerDTO> GetCustomerById(int id)
         {
-            var customer = await _ecommerceContext.Customers.FindAsync(id);
+            var customer = new Customer();
+
+            try
+            {
+                customer = await _ecommerceContext.Customers.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             var customerDTO = _mapper.Map<Customer, CustomerDTO>(customer);
             /*
