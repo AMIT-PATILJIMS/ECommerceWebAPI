@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 
 namespace ECommerceWebAPI
 {
@@ -12,6 +13,8 @@ namespace ECommerceWebAPI
             builder.Services.AddDbContext<EcommerceContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add services to the container.
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
