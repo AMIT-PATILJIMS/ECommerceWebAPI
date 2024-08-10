@@ -30,7 +30,7 @@ namespace ECommerceWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.Message);
             }
 
             return customers;
@@ -48,22 +48,11 @@ namespace ECommerceWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
             var customerDTO = _mapper.Map<Customer, CustomerDTO>(customer);
-            /*
-            if (customer != null)
-            {
-                customerDTO = new CustomerDTO()
-                {
-                    CustomerId = customer.CustomerId,
-                    Name = customer.Name,
-                    Email = customer.Address,
-                    Address = customer.Address
-                };
-            }
-            */
+
             return customerDTO;
         }
 
@@ -92,5 +81,69 @@ namespace ECommerceWebAPI.Controllers
 
             return customer.CustomerId;
         }
+
+        [Route("SoftDeleteFromCustomer{id}")]
+        [HttpPut]
+        public async Task<int> SoftDeleteFromCustomer(int id)
+        {
+            var customer = new Customer();
+            try
+            {
+                customer = await _ecommerceContext.Customers.FindAsync(id);
+
+                customer.IsDeleted = true;
+
+                await _ecommerceContext.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return customer.CustomerId;
+        }
+
+        [Route("Deletehard{id}")]
+        [HttpPut]
+        public async Task<int> Deletehard(int id)
+        {
+            var customer = new Customer();
+
+            try
+            {
+                customer = await _ecommerceContext.Customers.FindAsync(id);
+
+                _ecommerceContext.Customers.Remove(customer);
+
+                await _ecommerceContext.SaveChangesAsync();
+            }
+            catch(Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return customer.CustomerId;
+        }
+        /*
+        [HttpPut]
+        [Route("UpdateCustomerdata")]
+        public async Task<int> UpdateCustomerdata(CustomerDTO data)
+        {
+            var dataForUpdate = new Customer();
+
+            try
+            {
+                dataForUpdate = await _ecommerceContext.Customers.FindAsync(data.CustomerId);
+
+                var result = _mapper.Map<CustomerDTO, Customer>(dataForUpdate);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return data.CustomerId;
+        }
+        */
     }
 }
