@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ECommerceWebAPI.DTO;
+using ECommerceWebAPI.Models;
 
 namespace ECommerceWebAPI
 {

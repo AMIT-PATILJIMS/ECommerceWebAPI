@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ECommerceWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceWebAPI;

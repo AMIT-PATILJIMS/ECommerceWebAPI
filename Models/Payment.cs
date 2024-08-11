@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ECommerceWebAPI;
+namespace ECommerceWebAPI.Models;
 
 public partial class Payment
 {
