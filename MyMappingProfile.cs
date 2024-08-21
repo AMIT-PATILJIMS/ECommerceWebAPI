@@ -12,6 +12,8 @@ namespace ECommerceWebAPI
             CreateMap<Customer, CustomerDTO>();
 
             CreateMap<CustomerDTO, Customer>().ForMember(src => src.CustomerId, act => act.Ignore());
+
+            CreateMap<Product, ProductDTO>();
         }
     }
 }
